@@ -71,7 +71,7 @@
 
 <div class="form-container">
     <h2 style="color: #d5006d;">Регистрация</h2>
-    <form id="registrationForm" action="/submit-form" method="post">
+    <form id="registrationForm">
         <div class="form-group">
             <label for="firstName">Имя</label>
             <input type="text" id="firstName" name="firstName" required>
@@ -94,21 +94,23 @@
 </div>
 
 <script>
-document.getElementById('registrationForm').addEventListener('submit', function(event) {
-    event.preventDefault();
-    const formData = new FormData(this);
-    fetch('/submit-form', {
-        method: 'POST',
-        body: formData
-    }).then(response => response.json())
-      .then(data => {
-          document.querySelector('.result').innerText = data.status === 'ok' ? 'Данные успешно отправлены!' : 'Произошла ошибка.';
-      })
-      .catch(error => {
-          console.error('Ошибка:', error);
-          document.querySelector('.result').innerText = 'Произошла ошибка.';
-      });
-});
+    document.getElementById('registrationForm').addEventListener('submit', function(event) {
+        event.preventDefault(); // Предотвращаем отправку формы
+
+        // Получаем значения из полей формы
+        const firstName = document.getElementById('firstName').value;
+        const lastName = document.getElementById('lastName').value;
+        const phone = document.getElementById('phone').value;
+        const email = document.getElementById('email').value;
+
+        // Отображаем введенные данные
+        const resultDiv = document.getElementById('result');
+        resultDiv.innerHTML = `<h3>Введенные данные:</h3>
+                               <p>Имя: ${firstName}</p>
+                               <p>Фамилия: ${lastName}</p>
+                               <p>Телефон: ${phone}</p>
+                               <p>Почта: ${email}</p>`;
+    });
 </script>
 
 </body>
